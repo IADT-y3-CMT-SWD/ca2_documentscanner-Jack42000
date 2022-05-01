@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import utils
 
+
 # function to initialize Trackbars
 '''
 def nothing(x):
@@ -30,7 +31,12 @@ widthImg = 480
 count = 0
 
 
-
+font                   = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (375,100)
+fontScale              = 1
+fontColor              = (255,0,0)
+thickness              = 1
+lineType               = 2
 utils.initializeTrackbars()
 
 
@@ -52,12 +58,13 @@ while True:
     kernel = np.ones((5, 5))
     imgDial = cv2.dilate(imgCanny, kernel, iterations=2)  # APPLY DILATION
     imgThreshold = cv2.erode(imgDial, kernel, iterations=1)  # APPLY EROSION
-    
     imgContours = img.copy()
     imgBigContour = img.copy()
+    
 
     contours, hierachy = cv2.findContours(imgThreshold, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cv2.drawContours(imgContours, contours, -1, (0,255,0), 10)
+    
    
     biggest, maxArea  = utils.biggestContour(contours)
     print(f'Biggest not ordered: {biggest}')
@@ -71,10 +78,12 @@ while True:
         pts2 = np.float32([[0, 0],[heightImg, 0], [0, widthImg], [heightImg, widthImg]])
         matrix = cv2.getPerspectiveTransform(pts1,pts2)
         imgWarpColored = cv2.warpPerspective(img, matrix, (heightImg, widthImg))
+        
 
 
 
-
+    IMAGETEXT = imgWarpColored.copy()
+    IMAGETEXT = cv2.putText(IMAGETEXT,'Hello World!',bottomLeftCornerOfText,font, fontScale,fontColor,thickness,lineType)
     imgFinal = imgCanny
     
     cv2.imshow("1. Original", img)
@@ -86,7 +95,8 @@ while True:
     cv2.imshow("7. imgContours", imgContours) #detects edges and contours
     cv2.imshow("8. imgBigContour", imgBigContour) #detects edges and contoursv
     cv2.imshow("9. imgWarpColored", imgWarpColored)
-
+    cv2.imshow("10.IMAGETEXT",IMAGETEXT)
+    
 #user interaction 
     # Press x  on keyboard to  exit
     # Close and break the loop after pressing "x" key
