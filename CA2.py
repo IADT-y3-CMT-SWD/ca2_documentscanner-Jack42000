@@ -83,7 +83,7 @@ while True:
 
 
     IMAGETEXT = imgWarpColored.copy()
-    IMAGETEXT = cv2.putText(IMAGETEXT,'Hello World!',bottomLeftCornerOfText,font, fontScale,fontColor,thickness,lineType)
+    IMAGETEXT = cv2.putText(IMAGETEXT,'xyz',bottomLeftCornerOfText,font, fontScale,fontColor,thickness,lineType)
     imgFinal = imgCanny
     
     cv2.imshow("1. Original", img)
@@ -107,7 +107,7 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('s'):
         print("saving")
         # save image to folder using cv2.imwrite()
-        cv2.imwrite("Scanned/myImage"+str(count)+".jpg", imgFinal)
+        cv2.imwrite("Scanned/myImage"+str(count)+".jpg", IMAGETEXT)
         cv2.waitKey(300)
         count += 1
 
